@@ -22,4 +22,7 @@ const envSchema = z.object({
 });
 
 export const config = envSchema.parse(process.env);
+export const isProd = config.NODE_ENV === "production";
+export const isDev = config.NODE_ENV === "development";
+export const isTest = config.NODE_ENV === "test";
 export type Config = z.infer<typeof envSchema>;

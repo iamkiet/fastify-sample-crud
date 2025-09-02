@@ -1,41 +1,42 @@
-import pino from "pino";
-import { config } from "./environment";
+import { isProd } from "./environment";
 
-const isProd = config.NODE_ENV === "production";
-
-const baseOptions: pino.LoggerOptions = {
+export const loggerOptions = {
   level: isProd ? "info" : "debug",
   redact: {
     paths: [
+      // Request headers
       "req.headers.authorization",
       "request.headers.authorization",
       "req.headers.cookie",
       "request.headers.cookie",
-      "password",
-      "authorization",
+      "req.body.password",
+      "request.body.password",
+      "req.body.credentialClient",
+      "request.body.credentialClient",
+      "req.body.credentialSecret",
+      "request.body.credentialSecret",
+      "req.body.apikey",
+      "request.body.apikey",
+      "response.data.password",
+      "response.data.credentialClient",
+      "response.data.credentialSecret",
+      "response.data.apikey",
+      "res.headers.authorization",
+      "response.headers.authorization",
+      "res.headers.cookie",
+      "response.headers.cookie",
     ],
-    censor: "[REDACTED]",
+    censor: "*****",
   },
-  formatters: isProd ? { level: (label) => ({ level: label }) } : undefined,
-  timestamp: isProd ? pino.stdTimeFunctions.isoTime : undefined,
-};
-
-export const logger = pino({
-  ...baseOptions,
-  transport: !isProd
-    ? {
+  timestamp: isProd ? () => `,"time":"${new Date().toISOString()}"` : false,
+  transport: isProd
+    ? undefined
+    : {
         target: "pino-pretty",
-        options: { colorize: true },
-      }
-    : undefined,
-});
-
-export const loggerOptions: pino.LoggerOptions = {
-  ...baseOptions,
-  transport: !isProd
-    ? {
-        target: "pino-pretty",
-        options: { colorize: true },
-      }
-    : undefined,
+        options: {
+          colorize: true,
+          translateTime: "SYS:standard",
+          ignore: "pid,hostname",
+        },
+      },
 };
