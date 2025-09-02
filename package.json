@@ -1,0 +1,42 @@
+{
+  "name": "fastify-monorepo",
+  "version": "1.0.0",
+  "description": "Fastify API Monorepo with Turborepo and pnpm",
+  "private": true,
+  "packageManager": "pnpm@8.15.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "start": "turbo run start",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean",
+    "migration:generate": "turbo run migration:generate --filter=api",
+    "migration:run": "turbo run migration:run --filter=api",
+    "migration:revert": "turbo run migration:revert --filter=api",
+    "seed": "turbo run seed --filter=api"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.12.4",
+    "turbo": "^1.12.4",
+    "typescript": "^5.4.5",
+    "@types/node": "^20.12.12",
+    "eslint": "^8.57.0",
+    "prettier": "^3.6.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "keywords": [
+    "fastify",
+    "typescript",
+    "turborepo",
+    "monorepo",
+    "pnpm"
+  ],
+  "author": "Kiet Nguyen",
+  "license": "MIT"
+}
